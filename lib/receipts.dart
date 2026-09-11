@@ -1,6 +1,8 @@
 // lib/recent_receipts_screen.dart
 import 'package:flutter/material.dart';
 
+import 'scan.dart';
+
 class RecentReceiptsScreen extends StatelessWidget {
   const RecentReceiptsScreen({super.key});
 
@@ -240,7 +242,21 @@ class RecentReceiptsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () async {
+          final String? imagePath = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScanReceiptScreen()),
+          );
+
+          if (imagePath != null && context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Receipt captured successfully!'),
+                backgroundColor: Color(0xFF1976D2),
+              ),
+            );
+          }
+        },
         backgroundColor: const Color(0xFF1976D2),
         foregroundColor: Colors.white,
         icon: const Icon(Icons.camera_alt_outlined),
